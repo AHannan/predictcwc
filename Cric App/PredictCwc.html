@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+        crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+    <style>
+        table {
+            border-collapse: collapse;
+            /*remove spaces within cells */
+            margin: 25px 0px;
+            font-size: 0.9em;
+            min-width: 400px;
+        }
+
+        .heading {
+            width: 50px;
+        }
+
+        .cell {
+            height: 50px;
+        }
+
+        .team {
+            height: 50px;
+            width: 100px;
+        }
+
+        .team-image {
+            width: 20px;
+            height: 20px;
+        }
+
+        .input-number {
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            background-color: #f7eca8;
+        }
+
+        .team-name {
+            padding: 2px 0 0 4px;
+        }
+
+
+        .cell-won {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            text-align: center;
+        }
+
+        .cell-draw {
+            background-color: rgb(186, 199, 74);
+            border: none;
+            color: white;
+            text-align: center;
+        }
+
+        .cell-lost {
+            background-color: rgb(182, 82, 95);
+            border: none;
+            color: white;
+            text-align: center;
+        }
+
+        .cell-disabled {
+            background-color: rgb(99, 92, 93);
+            border: none;
+            color: white;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <!-- <div class="row col-md-12">
+            <h2>Predict CWC</h2>
+        </div> -->
+    
+        <div class="col-md-8">
+            <h3>All Combinations</h3>
+            <table id="tbl-details">
+                <tr>
+                    <th class="heading" style="text-align: right;padding-right: 10px;">versus</th>
+                    <th class="heading" id="head-eng">Eng</th>
+                    <th class="heading" id="head-ind">Ind</th>
+                    <th class="heading" id="head-aus">Aus</th>
+                    <th class="heading" id="head-nzl">Nzl</th>
+                    <th class="heading" id="head-pak">Pak</th>
+                    <th class="heading" id="head-ban">Ban</th>
+                    <th class="heading" id="head-win">WIN</th>
+                    <th class="heading" id="head-saf">SAF</th>
+                    <th class="heading" id="head-sri">Sri</th>
+                    <th class="heading" id="head-afg">Afg</th>
+                </tr>
+                <tr id="row-eng">
+                    <td class="team" id="team-eng">
+                        <img class="team-image">
+                        <span class="team-name">England</span>
+                    </td>
+                    <td class="cell" id="eng-eng">-</td>
+                    <td class="cell" id="eng-ind"></td>
+                    <td class="cell" id="eng-aus"></td>
+                    <td class="cell" id="eng-nzl"></td>
+                    <td class="cell" id="eng-pak"></td>
+                    <td class="cell" id="eng-ban"></td>
+                    <td class="cell" id="eng-win"></td>
+                    <td class="cell" id="eng-saf"></td>
+                    <td class="cell" id="eng-sri"></td>
+                    <td class="cell" id="eng-afg"></td>
+                </tr>
+                <tr id="row-ind">
+                    <td class="team" id="team-ind">
+                        <img class="team-image">
+                        <span class="team-name">India</span>
+                    </td>
+                    <td class="cell" id="ind-eng"></td>
+                    <td class="cell" id="ind-ind">-</td>
+                    <td class="cell" id="ind-aus"></td>
+                    <td class="cell" id="ind-nzl"></td>
+                    <td class="cell" id="ind-pak"></td>
+                    <td class="cell" id="ind-ban"></td>
+                    <td class="cell" id="ind-win"></td>
+                    <td class="cell" id="ind-saf"></td>
+                    <td class="cell" id="ind-sri"></td>
+                    <td class="cell" id="ind-afg"></td>
+                </tr>
+                <tr id="row-aus">
+                    <td class="team" id="team-aus">
+                        <img class="team-image">
+                        <span class="team-name">Australia</span>
+                    </td>
+                    <td class="cell" id="aus-eng"></td>
+                    <td class="cell" id="aus-ind"></td>
+                    <td class="cell" id="aus-aus">-</td>
+                    <td class="cell" id="aus-nzl"></td>
+                    <td class="cell" id="aus-pak"></td>
+                    <td class="cell" id="aus-ban"></td>
+                    <td class="cell" id="aus-win"></td>
+                    <td class="cell" id="aus-saf"></td>
+                    <td class="cell" id="aus-sri"></td>
+                    <td class="cell" id="aus-afg"></td>
+                </tr>
+                <tr id="row-nzl">
+                    <td class="cell" id="team-nzl">
+                        <img class="team-image">
+                        <span class="team-name">New Zealand</span>
+                    </td>
+                    <td class="cell" id="nzl-eng"></td>
+                    <td class="cell" id="nzl-ind"></td>
+                    <td class="cell" id="nzl-aus"></td>
+                    <td class="cell" id="nzl-nzl">-</td>
+                    <td class="cell" id="nzl-pak"></td>
+                    <td class="cell" id="nzl-ban"></td>
+                    <td class="cell" id="nzl-win"></td>
+                    <td class="cell" id="nzl-saf"></td>
+                    <td class="cell" id="nzl-sri"></td>
+                    <td class="cell" id="nzl-afg"></td>
+                </tr>
+                <tr id="row-pak">
+                    <td class="cell" id="team-pak">
+                        <img class="team-image">
+                        <span class="team-name">Pakistan</span>
+                    </td>
+                    <td class="cell" id="pak-eng"></td>
+                    <td class="cell" id="pak-ind"></td>
+                    <td class="cell" id="pak-aus"></td>
+                    <td class="cell" id="pak-nzl"></td>
+                    <td class="cell" id="pak-pak">-</td>
+                    <td class="cell" id="pak-ban"></td>
+                    <td class="cell" id="pak-win"></td>
+                    <td class="cell" id="pak-saf"></td>
+                    <td class="cell" id="pak-sri"></td>
+                    <td class="cell" id="pak-afg"></td>
+                </tr>
+                <tr id="row-ban">
+                    <td class="cell" id="team-ban">
+                        <img class="team-image">
+                        <span class="team-name">Bangladesh</span>
+                    </td>
+                    <td class="cell" id="ban-eng"></td>
+                    <td class="cell" id="ban-ind"></td>
+                    <td class="cell" id="ban-aus"></td>
+                    <td class="cell" id="ban-nzl"></td>
+                    <td class="cell" id="ban-pak"></td>
+                    <td class="cell" id="ban-ban">-</td>
+                    <td class="cell" id="ban-win"></td>
+                    <td class="cell" id="ban-saf"></td>
+                    <td class="cell" id="ban-sri"></td>
+                    <td class="cell" id="ban-afg"></td>
+                </tr>
+                <tr id="row-win">
+                    <td class="cell" id="team-win">
+                        <img class="team-image">
+                        <span class="team-name">West Indies</span>
+                    </td>
+                    <td class="cell" id="win-eng"></td>
+                    <td class="cell" id="win-ind"></td>
+                    <td class="cell" id="win-aus"></td>
+                    <td class="cell" id="win-nzl"></td>
+                    <td class="cell" id="win-pak"></td>
+                    <td class="cell" id="win-ban"></td>
+                    <td class="cell" id="win-win">-</td>
+                    <td class="cell" id="win-saf"></td>
+                    <td class="cell" id="win-sri"></td>
+                    <td class="cell" id="win-afg"></td>
+                </tr>
+                <tr id="row-saf">
+                    <td class="cell" id="team-saf">
+                        <img class="team-image">
+                        <span class="team-name">Soth Africa</span>
+                    </td>
+                    <td class="cell" id="saf-eng"></td>
+                    <td class="cell" id="saf-ind"></td>
+                    <td class="cell" id="saf-aus"></td>
+                    <td class="cell" id="saf-nzl"></td>
+                    <td class="cell" id="saf-pak"></td>
+                    <td class="cell" id="saf-ban"></td>
+                    <td class="cell" id="saf-win"></td>
+                    <td class="cell" id="saf-saf">-</td>
+                    <td class="cell" id="saf-sri"></td>
+                    <td class="cell" id="saf-afg"></td>
+                </tr>
+                <tr id="row-sri">
+                    <td class="cell" id="team-sri">
+                        <img class="team-image">
+                        <span class="team-name">Sri Lanka</span>
+                    </td>
+                    <td class="cell" id="sri-eng"></td>
+                    <td class="cell" id="sri-ind"></td>
+                    <td class="cell" id="sri-aus"></td>
+                    <td class="cell" id="sri-nzl"></td>
+                    <td class="cell" id="sri-pak"></td>
+                    <td class="cell" id="sri-ban"></td>
+                    <td class="cell" id="sri-win"></td>
+                    <td class="cell" id="sri-saf"></td>
+                    <td class="cell" id="sri-sri">-</td>
+                    <td class="cell" id="sri-afg"></td>
+                </tr>
+                <tr id="row-afg">
+                    <td class="cell" id="team-afg">
+                        <img class="team-image">
+                        <span class="team-name">Afghanistan</span>
+                    </td>
+                    <td class="cell" id="afg-eng"></td>
+                    <td class="cell" id="afg-ind"></td>
+                    <td class="cell" id="afg-aus"></td>
+                    <td class="cell" id="afg-nzl"></td>
+                    <td class="cell" id="afg-pak"></td>
+                    <td class="cell" id="afg-ban"></td>
+                    <td class="cell" id="afg-win"></td>
+                    <td class="cell" id="afg-saf"></td>
+                    <td class="cell" id="afg-sri"></td>
+                    <td class="cell" id="afg-afg">-</td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <h2>
+                Qualification Chance
+            </h2>
+            <table id="tbl-chances">
+                <tr>
+                    <th>Teams</th>
+                    <th class="heading" id="head-chance" onclick="sortTable(1, 'tbl-chances')">Chance</th>
+                </tr>
+                <tr>
+                    <td class="team" id="team-eng">
+                        <img class="team-image">
+                        <span class="team-name">England</span>
+                    </td>
+                    <td id="chance-eng">0</td>
+                </tr>
+                <tr>
+                    <td class="team" id="team-ind">
+                        <img class="team-image">
+                        <span class="team-name">India</span>
+                    </td>
+                    <td id="chance-ind">0</td>
+                </tr>
+                <tr>
+                    <td class="team" id="team-aus">
+                        <img class="team-image">
+                        <span class="team-name">Australia</span>
+                    </td>
+                    <td id="chance-aus">0</td>
+                </tr>
+                <tr>
+                    <td class="team" id="team-nzl">
+                        <img class="team-image">
+                        <span class="team-name">Newzealand</span>
+                    </td>
+                    <td id="chance-nzl">0</td>
+                </tr>
+                <tr>
+                    <td class="team" id="team-pak">
+                        <img class="team-image">
+                        <span class="team-name">Pakistan</span>
+                    </td>
+                    <td id="chance-pak">0</td>
+                </tr>
+                <tr>
+                    <td class="team" id="team-ban">
+                        <img class="team-image">
+                        <span class="team-name">Bangladesh</span>
+                    </td>
+                    <td id="chance-ban">0</td>
+                </tr>
+                <tr>
+                    <td class="team" id="team-win">
+                        <img class="team-image">
+                        <span class="team-name">West Indies</span>
+                    </td>
+                    <td id="chance-win">0</td>
+                </tr>
+                <tr>
+                    <td class="team" id="team-saf">
+                        <img class="team-image">
+                        <span class="team-name">South Africa</span>
+                    </td>
+                    <td id="chance-saf">0</td>
+                </tr>
+                <tr>
+                    <td class="team" id="team-sri">
+                        <img class="team-image">
+                        <span class="team-name">Sri Lanka</span>
+                    </td>
+                    <td id="chance-sri">0</td>
+                </tr>
+                <tr>
+                    <td class="team" id="team-afg">
+                        <img class="team-image">
+                        <span class="team-name">Afghanistan</span>
+                    </td>
+                    <td id="chance-afg">0</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <script>
+
+        function sortTable(n, tableName) {
+            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+            table = document.getElementById(tableName);
+            switching = true;
+            // Set the sorting direction to ascending:
+            dir = "asc";
+            /* Make a loop that will continue until
+            no switching has been done: */
+            while (switching) {
+                // Start by saying: no switching is done:
+                switching = false;
+                rows = table.rows;
+                /* Loop through all table rows (except the
+                first, which contains table headers): */
+                for (i = 1; i < (rows.length - 1); i++) {
+                    // Start by saying there should be no switching:
+                    shouldSwitch = false;
+                    /* Get the two elements you want to compare,
+                    one from current row and one from the next: */
+                    x = rows[i].getElementsByTagName("TD")[n];
+                    y = rows[i + 1].getElementsByTagName("TD")[n];
+                    /* Check if the two rows should switch place,
+                    based on the direction, asc or desc: */
+                    if (dir == "asc") {
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            // If so, mark as a switch and break the loop:
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (dir == "desc") {
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                            // If so, mark as a switch and break the loop:
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if (shouldSwitch) {
+                    /* If a switch has been marked, make the switch
+                    and mark that a switch has been done: */
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    // Each time a switch is done, increase this count by 1:
+                    switchcount++;
+                } else {
+                    /* If no switching has been done AND the direction is "asc",
+                    set the direction to "desc" and run the while loop again. */
+                    if (switchcount == 0 && dir == "asc") {
+                        dir = "desc";
+                        switching = true;
+                    }
+                }
+            }
+        }
+
+        function sortChance() {
+            sortTable(1, 'tbl-chances');
+            sortTable(1, 'tbl-chances');
+        }
+
+        function updateTotal(team1, team2, team1Score, team2Score) {
+
+            var team1TotalScore = parseFloat($('#chance-' + team1).text());
+            $('#chance-' + team1).text(team1TotalScore + parseFloat(team1Score));
+
+            var team2TotalScore = parseFloat($('#chance-' + team2).text());
+            $('#chance-' + team2).text(team2TotalScore + parseFloat(team2Score));
+
+            for (i = 0; i < teams.length; i++) {
+                $('#chance-' + teams[i]).text(parseFloat($('#chance-' + teams[i]).text()).toFixed(1));
+            }
+
+            sortChance();
+        }
+
+        function getInputNumber(val, match) {
+            return '<input id="num-' + match + '" type="number" value="' + val + '" class="input-number" min="0" max="1" step=".1">';
+        }
+
+        function getTeam(match, num) {
+            var teamNames = match.split("-");
+            return teamNames[num - 1];
+        }
+
+        var teams = ["eng", "ind", "aus", "nzl", "pak", "ban", "win", "saf", "sri", "afg"];
+        var teamsImage = [1, 6, 2, 5, 7, 25, 4, 3, 8, 40];
+
+        for (i = 0; i < teams.length; i++) {
+            // Disable impossible matches
+            $("#" + teams[i] + "-" + teams[i]).addClass("cell-disabled");
+            // Setup images
+            $('#team-' + teams[i] + ' img').attr("src", "https://a1.espncdn.com/combiner/i?img=/i/teamlogos/cricket/500/" + teamsImage[i] + ".png&amp;h=50&amp;w=50")
+        }
+
+
+        var matches =
+            {
+                "eng-ind": { "result": 0.6 },
+                "eng-aus": { "result": 0.6 },
+                "eng-nzl": { "result": 0.7 },
+                "eng-pak": { "result": 0, "completed": 1 },
+                "eng-ban": { "result": 0.7 },
+                "eng-win": { "result": 0.7 },
+                "eng-saf": { "result": 1, "completed": 1 },
+                "eng-sri": { "result": 0.8 },
+                "eng-afg": { "result": 0.8 },
+
+                "ind-aus": { "result": 0.5 },
+                "ind-nzl": { "result": 0.6 },
+                "ind-pak": { "result": 0.7 },
+                "ind-ban": { "result": 0.7 },
+                "ind-win": { "result": 0.7 },
+                "ind-saf": { "result": 1, "completed": 1 },
+                "ind-sri": { "result": 0.8 },
+                "ind-afg": { "result": 0.8 },
+
+                "aus-nzl": { "result": 0.6 },
+                "aus-pak": { "result": 0.6 },
+                "aus-ban": { "result": 0.6 },
+                "aus-win": { "result": 1, "completed": 1 },
+                "aus-saf": { "result": 0.5 },
+                "aus-sri": { "result": 0.8 },
+                "aus-afg": { "result": 1, "completed": 1 },
+
+                "nzl-pak": { "result": 0.5 },
+                "nzl-ban": { "result": 1, "completed": 1 },
+                "nzl-win": { "result": 0.5 },
+                "nzl-saf": { "result": 0.5 },
+                "nzl-sri": { "result": 1, "completed": 1 },
+                "nzl-afg": { "result": 0.7 },
+
+                "pak-ban": { "result": 1 },
+                "pak-win": { "result": 0, "completed": 1 },
+                "pak-saf": { "result": 0.5 },
+                "pak-sri": { "result": 0.5, "completed": 1 },
+                "pak-afg": { "result": 0.7 },
+
+                "ban-win": { "result": 1 },
+                "ban-saf": { "result": 0, "completed": 1 },
+                "ban-sri": { "result": 0.7 },
+                "ban-afg": { "result": 0.7 },
+
+                "win-saf": { "result": 0.5 },
+                "win-sri": { "result": 0.7 },
+                "win-afg": { "result": 0.7 },
+
+                "saf-sri": { "result": 0.7 },
+                "saf-afg": { "result": 0.7 },
+
+                "sri-afg": { "result": 0.7 },
+            };
+
+        $.each(matches, function (game) {
+
+            // get Teams
+            var team1 = getTeam(game, 1);
+            var team2 = getTeam(game, 2);
+
+            var result = matches[game]["result"];
+            var team1Score = result;
+            var team2Score = (1 - result).toFixed(1);
+
+            $("#" + team1 + "-" + team2).text(team1Score);
+            $("#" + team2 + "-" + team1).text(team2Score);
+
+            if (matches[game]["completed"]) {
+
+                var teamClass = ""
+                if (team1Score > 0.5) {
+                    teamClass = "cell-won";
+                } else if (team1Score < 0.5) {
+                    teamClass = "cell-lost";
+                } else {
+                    teamClass = "cell-draw";
+                }
+                $("#" + team1 + "-" + team2).addClass(teamClass);
+
+                teamClass = "";
+                if (team2Score > 0.5) {
+                    teamClass = "cell-won";
+                } else if (team2Score < 0.5) {
+                    teamClass = "cell-lost";
+                } else {
+                    teamClass = "cell-draw";
+                }
+                $("#" + team2 + "-" + team1).addClass(teamClass);
+            } else {
+                $("#" + team1 + "-" + team2).html(getInputNumber(team1Score, team1 + "-" + team2));
+                $("#" + team2 + "-" + team1).html(getInputNumber(team2Score, team2 + "-" + team1));
+            }
+
+            updateTotal(team1, team2, team1Score, team2Score);
+
+        });
+
+        sortChance();
+
+        function numInputFunction(id, value) {
+            var result = value;
+
+            var match = id.replace("num-", "");
+            var team1 = getTeam(match, 1);
+            var team2 = getTeam(match, 2);
+
+            //$("#num-" + team1 + "-" + team2).val(result);
+            $("#num-" + team2 + "-" + team1).val((1 - result).toFixed(1));
+
+            for (i = 0; i < teams.length; i++) {
+                if (team1.indexOf(teams[i]) != -1) {
+                    var resultValue = matches[team1 + "-" + team2]["result"];
+                    updateTotal(team1, team2, resultValue * -1, (1 - resultValue).toFixed(1) * -1);
+
+                    matches[team1 + "-" + team2]["result"] = result;
+
+                    resultValue = matches[team1 + "-" + team2]["result"];
+                    updateTotal(team1, team2, resultValue, (1 - resultValue).toFixed(1));
+                    break;
+                } else if (team2.indexOf(teams[i]) != -1) {
+                    var resultValue = matches[team2 + "-" + team1]["result"];
+                    updateTotal(team2, team1, resultValue * -1, (1 - resultValue).toFixed(1) * -1);
+
+                    matches[team2 + "-" + team1]["result"] = result;
+
+                    resultValue = matches[team2 + "-" + team1]["result"];
+                    updateTotal(team2, team1, resultValue, (1 - resultValue).toFixed(1));
+                    break;
+                }
+            }
+        }
+
+        $(function () {
+            $(":input").bind('keyup mouseup', function () {
+                if (this.value) {
+                    if (this.value > 1 || this.value < 0) {
+                        this.value = 1;
+                    } else {
+                        numInputFunction(this.id, this.value);
+                    }
+                } else {
+                    this.value = 0;
+                }
+            });
+        });
+
+    </script>
+</body>
+
+</html>
