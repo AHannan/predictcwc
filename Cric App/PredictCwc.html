@@ -15,7 +15,18 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
+
+    <script src="./script_basic.js"></script>
+
     <style>
+        td.sum {
+            font-size: 2em;
+            text-align: center;
+        }
+
+        .sort{
+            cursor: pointer;
+        }
         .tab-heading {
             color: red;
         }
@@ -108,6 +119,7 @@
                     <th class="heading" id="head-saf">SAF</th>
                     <th class="heading" id="head-sri">Sri</th>
                     <th class="heading" id="head-afg">Afg</th>
+                    <th class="heading sum sort" id="head-afg" onclick="sortTable(11, 'tbl-details')">Sum</th>
                 </tr>
                 <tr id="row-eng">
                     <td class="team" id="team-eng">
@@ -124,6 +136,7 @@
                     <td class="cell" id="eng-saf"></td>
                     <td class="cell" id="eng-sri"></td>
                     <td class="cell" id="eng-afg"></td>
+                    <td class="sum"></td>
                 </tr>
                 <tr id="row-ind">
                     <td class="team" id="team-ind">
@@ -140,6 +153,7 @@
                     <td class="cell" id="ind-saf"></td>
                     <td class="cell" id="ind-sri"></td>
                     <td class="cell" id="ind-afg"></td>
+                    <td class="sum"></td>
                 </tr>
                 <tr id="row-aus">
                     <td class="team" id="team-aus">
@@ -156,6 +170,7 @@
                     <td class="cell" id="aus-saf"></td>
                     <td class="cell" id="aus-sri"></td>
                     <td class="cell" id="aus-afg"></td>
+                    <td class="sum"></td>
                 </tr>
                 <tr id="row-nzl">
                     <td class="cell" id="team-nzl">
@@ -172,6 +187,7 @@
                     <td class="cell" id="nzl-saf"></td>
                     <td class="cell" id="nzl-sri"></td>
                     <td class="cell" id="nzl-afg"></td>
+                    <td class="sum"></td>
                 </tr>
                 <tr id="row-pak">
                     <td class="cell" id="team-pak">
@@ -188,6 +204,7 @@
                     <td class="cell" id="pak-saf"></td>
                     <td class="cell" id="pak-sri"></td>
                     <td class="cell" id="pak-afg"></td>
+                    <td class="sum"></td>
                 </tr>
                 <tr id="row-ban">
                     <td class="cell" id="team-ban">
@@ -204,6 +221,7 @@
                     <td class="cell" id="ban-saf"></td>
                     <td class="cell" id="ban-sri"></td>
                     <td class="cell" id="ban-afg"></td>
+                    <td class="sum"></td>
                 </tr>
                 <tr id="row-win">
                     <td class="cell" id="team-win">
@@ -220,6 +238,7 @@
                     <td class="cell" id="win-saf"></td>
                     <td class="cell" id="win-sri"></td>
                     <td class="cell" id="win-afg"></td>
+                    <td class="sum"></td>
                 </tr>
                 <tr id="row-saf">
                     <td class="cell" id="team-saf">
@@ -236,6 +255,7 @@
                     <td class="cell" id="saf-saf">-</td>
                     <td class="cell" id="saf-sri"></td>
                     <td class="cell" id="saf-afg"></td>
+                    <td class="sum"></td>
                 </tr>
                 <tr id="row-sri">
                     <td class="cell" id="team-sri">
@@ -252,6 +272,7 @@
                     <td class="cell" id="sri-saf"></td>
                     <td class="cell" id="sri-sri">-</td>
                     <td class="cell" id="sri-afg"></td>
+                    <td class="sum"></td>
                 </tr>
                 <tr id="row-afg">
                     <td class="cell" id="team-afg">
@@ -268,6 +289,7 @@
                     <td class="cell" id="afg-saf"></td>
                     <td class="cell" id="afg-sri"></td>
                     <td class="cell" id="afg-afg">-</td>
+                    <td class="sum"></td>
                 </tr>
             </table>
         </div>
@@ -278,7 +300,7 @@
             <table id="tbl-chances">
                 <tr>
                     <th>Teams</th>
-                    <th class="heading" id="head-chance" onclick="sortTable(1, 'tbl-chances')">Chance</th>
+                    <th class="heading sort" id="head-chance" onclick="sortTable(1, 'tbl-chances')">Chance</th>
                 </tr>
                 <tr>
                     <td class="team" id="team-eng">
@@ -355,89 +377,72 @@
     </div>
 
     <script>
-        function sortTable(n, tableName) {
-            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-            table = document.getElementById(tableName);
-            switching = true;
-            // Set the sorting direction to ascending:
-            dir = "asc";
-            /* Make a loop that will continue until
-            no switching has been done: */
-            while (switching) {
-                // Start by saying: no switching is done:
-                switching = false;
-                rows = table.rows;
-                /* Loop through all table rows (except the
-                first, which contains table headers): */
-                for (i = 1; i < (rows.length - 1); i++) {
-                    // Start by saying there should be no switching:
-                    shouldSwitch = false;
-                    /* Get the two elements you want to compare,
-                    one from current row and one from the next: */
-                    x = rows[i].getElementsByTagName("TD")[n];
-                    y = rows[i + 1].getElementsByTagName("TD")[n];
-                    /* Check if the two rows should switch place,
-                    based on the direction, asc or desc: */
-                    if (dir == "asc") {
-                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                            // If so, mark as a switch and break the loop:
-                            shouldSwitch = true;
-                            break;
-                        }
-                    } else if (dir == "desc") {
-                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-                            // If so, mark as a switch and break the loop:
-                            shouldSwitch = true;
-                            break;
-                        }
-                    }
-                }
-                if (shouldSwitch) {
-                    /* If a switch has been marked, make the switch
-                    and mark that a switch has been done: */
-                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                    switching = true;
-                    // Each time a switch is done, increase this count by 1:
-                    switchcount++;
-                } else {
-                    /* If no switching has been done AND the direction is "asc",
-                    set the direction to "desc" and run the while loop again. */
-                    if (switchcount == 0 && dir == "asc") {
-                        dir = "desc";
-                        switching = true;
-                    }
-                }
-            }
-        }
-        function sortChance() {
+        
+        /* ---
+        Pre Steps Functions 
+        --- */
+        
+        function refreshChanceTable() {
+            // teamInfo is actually a global variable here
+            $.each(teamInfo, function (team) {                
+                var myVar = teamInfo[team]['scores'];
+                var chance = 0;
+                $.each(myVar, function (v) {
+                   chance += parseFloat(teamInfo[team]['scores'][v]);
+                });               
+
+                chance = chance.toFixed(1);
+
+                $('#chance-' + team).text(chance);
+                $('#row-'+team+' .sum').text(chance);
+
+            });
+
             sortTable(1, 'tbl-chances');
             sortTable(1, 'tbl-chances');
         }
-        function updateTotal(team1, team2, team1Score, team2Score) {
-            var team1TotalScore = parseFloat($('#chance-' + team1).text());
-            $('#chance-' + team1).text(team1TotalScore + parseFloat(team1Score));
-            var team2TotalScore = parseFloat($('#chance-' + team2).text());
-            $('#chance-' + team2).text(team2TotalScore + parseFloat(team2Score));
-            for (i = 0; i < teams.length; i++) {
-                $('#chance-' + teams[i]).text(parseFloat($('#chance-' + teams[i]).text()).toFixed(1));
-            }
-            sortChance();
-        }
+
         function getInputNumber(val, match) {
             return '<input id="num-' + match + '" type="number" value="' + val + '" class="input-number" min="0" max="1" step=".1">';
         }
+
         function getTeam(match, num) {
             var teamNames = match.split("-");
             return teamNames[num - 1];
         }
-        var teams = ["eng", "ind", "aus", "nzl", "pak", "ban", "win", "saf", "sri", "afg"];
-        var teamsImage = [1, 6, 2, 5, 7, 25, 4, 3, 8, 40];
-        for (i = 0; i < teams.length; i++) {
-            // Disable impossible matches
-            $("#" + teams[i] + "-" + teams[i]).addClass("cell-disabled");
-            // Setup images
-            $('#team-' + teams[i] + ' img').attr("src", "https://a1.espncdn.com/combiner/i?img=/i/teamlogos/cricket/500/" + teamsImage[i] + ".png&amp;h=50&amp;w=50")
+
+        function getKeysCount(myArray){
+            return Object.keys(myArray).length;
         }
+
+        /* --- 
+        DATA 
+        --- */
+
+        // Team Info includes:
+        // Order of teams arrangement. Note: This order is important        
+        // Image numbers as present in espn cric info
+        var teamInfo = 
+        {
+            "eng": { "imageNumber":  1, "matches": 0, "won": 0, "lost": 0, "drawn" : 0, "points" : 0, "chance" : 0, "scores": {} },
+            "ind": { "imageNumber":  6, "matches": 0, "won": 0, "lost": 0, "drawn" : 0, "points" : 0, "chance" : 0, "scores": {}  },
+            "aus": { "imageNumber":  2, "matches": 0, "won": 0, "lost": 0, "drawn" : 0, "points" : 0, "chance" : 0, "scores": {}  },
+            "nzl": { "imageNumber":  5, "matches": 0, "won": 0, "lost": 0, "drawn" : 0, "points" : 0, "chance" : 0, "scores": {}  },
+            "pak": { "imageNumber":  7, "matches": 0, "won": 0, "lost": 0, "drawn" : 0, "points" : 0, "chance" : 0, "scores": {}  },
+            "ban": { "imageNumber": 25, "matches": 0, "won": 0, "lost": 0, "drawn" : 0, "points" : 0, "chance" : 0, "scores": {}  },
+            "win": { "imageNumber":  4, "matches": 0, "won": 0, "lost": 0, "drawn" : 0, "points" : 0, "chance" : 0, "scores": {}  },
+            "saf": { "imageNumber":  3, "matches": 0, "won": 0, "lost": 0, "drawn" : 0, "points" : 0, "chance" : 0, "scores": {}  },
+            "sri": { "imageNumber":  8, "matches": 0, "won": 0, "lost": 0, "drawn" : 0, "points" : 0, "chance" : 0, "scores": {}  },
+            "afg": { "imageNumber": 40, "matches": 0, "won": 0, "lost": 0, "drawn" : 0, "points" : 0, "chance" : 0, "scores": {}  }
+        };
+
+        /*
+        Round robin for 10 teams have 45 matches.
+        Keys are created as "<team1>-<team2>"
+        -   Result is the winning probabilty of team 1.
+        -   Probability of Team 2 is auto-calculated below
+        -   Completed describes if a game is completed
+        */
         var matches =
         {
             "eng-ind": { "result": 0.6 },
@@ -486,67 +491,118 @@
             "saf-afg": { "result": 0.7 },
             "sri-afg": { "result": 0.7 },
         };
-        $.each(matches, function (game) {
-            // get Teams
-            var team1 = getTeam(game, 1);
-            var team2 = getTeam(game, 2);
-            var result = matches[game]["result"];
-            var team1Score = result;
-            var team2Score = (1 - result).toFixed(1);
-            $("#" + team1 + "-" + team2).text(team1Score);
-            $("#" + team2 + "-" + team1).text(team2Score);
-            if (matches[game]["completed"]) {
-                var teamClass = ""
-                if (team1Score > 0.5) {
-                    teamClass = "cell-won";
-                } else if (team1Score < 0.5) {
-                    teamClass = "cell-lost";
-                } else {
-                    teamClass = "cell-draw";
-                }
-                $("#" + team1 + "-" + team2).addClass(teamClass);
-                teamClass = "";
-                if (team2Score > 0.5) {
-                    teamClass = "cell-won";
-                } else if (team2Score < 0.5) {
-                    teamClass = "cell-lost";
-                } else {
-                    teamClass = "cell-draw";
-                }
-                $("#" + team2 + "-" + team1).addClass(teamClass);
-            } else {
-                $("#" + team1 + "-" + team2).html(getInputNumber(team1Score, team1 + "-" + team2));
-                $("#" + team2 + "-" + team1).html(getInputNumber(team2Score, team2 + "-" + team1));
-            }
-            updateTotal(team1, team2, team1Score, team2Score);
+        
+        /* STEPS */
+        $.each(teamInfo, function (team) {
+            // Disable matches i.e. a team's match against itself
+            $("#" + team + "-" + team).addClass("cell-disabled");
+
+            // Utilizing this loop to setup images as well
+            // To-do: move these images locally from espn
+            $('#team-' + team + ' img').attr("src", "https://a1.espncdn.com/combiner/i?img=/i/teamlogos/cricket/500/" + teamInfo[team]["imageNumber"] + ".png&amp;h=50&amp;w=50")
         });
-        sortChance();
-        function numInputFunction(id, value) {
-            var result = value;
-            var match = id.replace("num-", "");
-            var team1 = getTeam(match, 1);
-            var team2 = getTeam(match, 2);
-            //$("#num-" + team1 + "-" + team2).val(result);
-            $("#num-" + team2 + "-" + team1).val((1 - result).toFixed(1));
-            for (i = 0; i < teams.length; i++) {
-                if (team1.indexOf(teams[i]) != -1) {
-                    var resultValue = matches[team1 + "-" + team2]["result"];
-                    updateTotal(team1, team2, resultValue * -1, (1 - resultValue).toFixed(1) * -1);
-                    matches[team1 + "-" + team2]["result"] = result;
-                    resultValue = matches[team1 + "-" + team2]["result"];
-                    updateTotal(team1, team2, resultValue, (1 - resultValue).toFixed(1));
-                    break;
-                } else if (team2.indexOf(teams[i]) != -1) {
-                    var resultValue = matches[team2 + "-" + team1]["result"];
-                    updateTotal(team2, team1, resultValue * -1, (1 - resultValue).toFixed(1) * -1);
-                    matches[team2 + "-" + team1]["result"] = result;
-                    resultValue = matches[team2 + "-" + team1]["result"];
-                    updateTotal(team2, team1, resultValue, (1 - resultValue).toFixed(1));
-                    break;
+
+        // Calculate scores for table 2
+        $.each(matches, function (match) {
+            
+            var tName_1 = getTeam(match, 1);
+            var tName_2 = getTeam(match, 2);
+
+            var tSeq_1 = tName_1 + "-" + tName_2;
+            var tSeq_2 = tName_2 + "-" + tName_1;
+
+            var tClass_1 = 'cell-draw';
+            var tClass_2 = 'cell-draw';
+            
+            var tResult_1 = matches[match]["result"]; // result is the probability/match result of first team            
+            var tResult_2 = (1 - tResult_1).toFixed(1); // get result of team 2 from team 1
+        
+            // Set scores for "Combination" table
+            if (!matches[match]["completed"]) {
+                // Incompleted matches: Add a number textbox                
+                $("#" + tSeq_1).html(getInputNumber(tResult_1, tSeq_1));
+                $("#" + tSeq_2).html(getInputNumber(tResult_2, tSeq_2));
+                
+            } else {
+                // Completed matches: Add Label
+                $("#" + tSeq_1).text(tResult_1);
+                $("#" + tSeq_2).text(tResult_2);
+
+                teamInfo[tName_1]['matches'] += 1;
+                teamInfo[tName_2]['matches'] += 1;
+
+                // Setup color themes for completed matches
+                if(tResult_1 > tResult_2){
+                    tClass_1 = 'cell-won'; // WON: team 1
+                    tClass_2 = 'cell-lost';
+
+                    teamInfo[tName_1]['won'] += 1; teamInfo[tName_1]['points'] += 2;
+                    teamInfo[tName_2]['lost'] += 1;
+                } else if(tResult_1 < tResult_2){
+                    tClass_1 = 'cell-lost';  // WON: team 2
+                    tClass_2 = 'cell-won';
+
+                    teamInfo[tName_1]['lost'] += 1;
+                    teamInfo[tName_2]['won'] += 1; teamInfo[tName_2]['points'] += 2;
+                }else{
+                    teamInfo[tName_1]['drawn'] += 1; teamInfo[tName_1]['points'] += 1;
+                    teamInfo[tName_2]['drawn'] += 1; teamInfo[tName_2]['points'] += 1;
                 }
+
+                $("#" + tSeq_1).addClass(tClass_1);
+                $("#" + tSeq_2).addClass(tClass_2);
             }
+            
+            // Update Team Info
+            teamInfo[tName_1]['scores'][tName_2] = tResult_1;
+            teamInfo[tName_2]['scores'][tName_1] = tResult_2;
+
+            //"eng": { "imageNumber": 1, "chance": 0, "matches": 0, "won": 0, "lost": 0, "drawn" : 0 },
+            //updateTotal(teams[1]["result"], team2, team1Score, team2Score);
+
+            /*
+            var teams = {
+                1 : { 'name': getTeam(match, 1), 'result': t1Result, 'seq': getTeam(match, 1) + "-" + getTeam(match, 2), 'class': 'cell-draw' },
+                2 : { 'name': getTeam(match, 2), 'result': t2Result, 'seq': getTeam(match, 2) + "-" + getTeam(match, 1), 'class': 'cell-draw'},
+            }
+            */
+           
+            
+        });
+        
+        // Refresh Table
+        refreshChanceTable(teamInfo);
+        
+        /* --- 
+        Post Steps Functions 
+        --- */
+        function numInputFunction(id, value) {
+            
+            var match = id.replace("num-", "");
+            
+            var tName_1 = getTeam(match, 1);
+            var tName_2 = getTeam(match, 2);
+
+            var tSeq_1 = tName_1 + "-" + tName_2;
+            var tSeq_2 = tName_2 + "-" + tName_1;
+
+            var tResult_1 = value; // same as the value of the number box
+            var tResult_2 = (1 - tResult_1).toFixed(1); // get result of team 2 from team 1
+
+            $("#num-" + tSeq_1).val(tResult_1);
+            $("#num-" + tSeq_2).val(tResult_2); // Only needed to update the second team only though
+
+            // Update scores of both teams against each other
+            this.teamInfo[tName_1]['scores'][tName_2] = tResult_1;
+            this.teamInfo[tName_2]['scores'][tName_1] = tResult_2;
+
+            // Refresh Chance Table
+            refreshChanceTable(teamInfo);
+
         }
+        
         $(function () {
+            $(":input").focus(function() { $(this).select(); } );
             $(":input").bind('keyup mouseup', function () {
                 if (this.value) {
                     if (this.value > 1 || this.value < 0) {
