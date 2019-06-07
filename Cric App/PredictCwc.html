@@ -2,7 +2,8 @@
 <html>
 
 <head>
-    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous"></script>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
         crossorigin="anonymous">
@@ -15,6 +16,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
     <style>
+        .tab-heading {
+            color: red;
+        }
+
         table {
             border-collapse: collapse;
             /*remove spaces within cells */
@@ -52,7 +57,6 @@
             padding: 2px 0 0 4px;
         }
 
-
         .cell-won {
             background-color: #4CAF50;
             border: none;
@@ -88,9 +92,9 @@
         <!-- <div class="row col-md-12">
             <h2>Predict CWC</h2>
         </div> -->
-    
+
         <div class="col-md-8">
-            <h3>All Combinations</h3>
+            <h3 class="tab-heading">Cricket World Cup - All Combinations</h3>
             <table id="tbl-details">
                 <tr>
                     <th class="heading" style="text-align: right;padding-right: 10px;">versus</th>
@@ -268,9 +272,9 @@
             </table>
         </div>
         <div class="col-md-4">
-            <h2>
+            <h3 class="tab-heading">
                 Qualification Chance
-            </h2>
+            </h3>
             <table id="tbl-chances">
                 <tr>
                     <th>Teams</th>
@@ -351,7 +355,6 @@
     </div>
 
     <script>
-
         function sortTable(n, tableName) {
             var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
             table = document.getElementById(tableName);
@@ -406,119 +409,93 @@
                 }
             }
         }
-
         function sortChance() {
             sortTable(1, 'tbl-chances');
             sortTable(1, 'tbl-chances');
         }
-
         function updateTotal(team1, team2, team1Score, team2Score) {
-
             var team1TotalScore = parseFloat($('#chance-' + team1).text());
             $('#chance-' + team1).text(team1TotalScore + parseFloat(team1Score));
-
             var team2TotalScore = parseFloat($('#chance-' + team2).text());
             $('#chance-' + team2).text(team2TotalScore + parseFloat(team2Score));
-
             for (i = 0; i < teams.length; i++) {
                 $('#chance-' + teams[i]).text(parseFloat($('#chance-' + teams[i]).text()).toFixed(1));
             }
-
             sortChance();
         }
-
         function getInputNumber(val, match) {
             return '<input id="num-' + match + '" type="number" value="' + val + '" class="input-number" min="0" max="1" step=".1">';
         }
-
         function getTeam(match, num) {
             var teamNames = match.split("-");
             return teamNames[num - 1];
         }
-
         var teams = ["eng", "ind", "aus", "nzl", "pak", "ban", "win", "saf", "sri", "afg"];
         var teamsImage = [1, 6, 2, 5, 7, 25, 4, 3, 8, 40];
-
         for (i = 0; i < teams.length; i++) {
             // Disable impossible matches
             $("#" + teams[i] + "-" + teams[i]).addClass("cell-disabled");
             // Setup images
             $('#team-' + teams[i] + ' img').attr("src", "https://a1.espncdn.com/combiner/i?img=/i/teamlogos/cricket/500/" + teamsImage[i] + ".png&amp;h=50&amp;w=50")
         }
-
-
         var matches =
-            {
-                "eng-ind": { "result": 0.6 },
-                "eng-aus": { "result": 0.6 },
-                "eng-nzl": { "result": 0.7 },
-                "eng-pak": { "result": 0, "completed": 1 },
-                "eng-ban": { "result": 0.7 },
-                "eng-win": { "result": 0.7 },
-                "eng-saf": { "result": 1, "completed": 1 },
-                "eng-sri": { "result": 0.8 },
-                "eng-afg": { "result": 0.8 },
-
-                "ind-aus": { "result": 0.5 },
-                "ind-nzl": { "result": 0.6 },
-                "ind-pak": { "result": 0.7 },
-                "ind-ban": { "result": 0.7 },
-                "ind-win": { "result": 0.7 },
-                "ind-saf": { "result": 1, "completed": 1 },
-                "ind-sri": { "result": 0.8 },
-                "ind-afg": { "result": 0.8 },
-
-                "aus-nzl": { "result": 0.6 },
-                "aus-pak": { "result": 0.6 },
-                "aus-ban": { "result": 0.6 },
-                "aus-win": { "result": 1, "completed": 1 },
-                "aus-saf": { "result": 0.5 },
-                "aus-sri": { "result": 0.8 },
-                "aus-afg": { "result": 1, "completed": 1 },
-
-                "nzl-pak": { "result": 0.5 },
-                "nzl-ban": { "result": 1, "completed": 1 },
-                "nzl-win": { "result": 0.5 },
-                "nzl-saf": { "result": 0.5 },
-                "nzl-sri": { "result": 1, "completed": 1 },
-                "nzl-afg": { "result": 0.7 },
-
-                "pak-ban": { "result": 1 },
-                "pak-win": { "result": 0, "completed": 1 },
-                "pak-saf": { "result": 0.5 },
-                "pak-sri": { "result": 0.5, "completed": 1 },
-                "pak-afg": { "result": 0.7 },
-
-                "ban-win": { "result": 1 },
-                "ban-saf": { "result": 0, "completed": 1 },
-                "ban-sri": { "result": 0.7 },
-                "ban-afg": { "result": 0.7 },
-
-                "win-saf": { "result": 0.5 },
-                "win-sri": { "result": 0.7 },
-                "win-afg": { "result": 0.7 },
-
-                "saf-sri": { "result": 0.7 },
-                "saf-afg": { "result": 0.7 },
-
-                "sri-afg": { "result": 0.7 },
-            };
-
+        {
+            "eng-ind": { "result": 0.6 },
+            "eng-aus": { "result": 0.6 },
+            "eng-nzl": { "result": 0.7 },
+            "eng-pak": { "result": 0, "completed": 1 },
+            "eng-ban": { "result": 0.7 },
+            "eng-win": { "result": 0.7 },
+            "eng-saf": { "result": 1, "completed": 1 },
+            "eng-sri": { "result": 0.8 },
+            "eng-afg": { "result": 0.8 },
+            "ind-aus": { "result": 0.5 },
+            "ind-nzl": { "result": 0.6 },
+            "ind-pak": { "result": 0.7 },
+            "ind-ban": { "result": 0.7 },
+            "ind-win": { "result": 0.7 },
+            "ind-saf": { "result": 1, "completed": 1 },
+            "ind-sri": { "result": 0.8 },
+            "ind-afg": { "result": 0.8 },
+            "aus-nzl": { "result": 0.6 },
+            "aus-pak": { "result": 0.6 },
+            "aus-ban": { "result": 0.6 },
+            "aus-win": { "result": 1, "completed": 1 },
+            "aus-saf": { "result": 0.5 },
+            "aus-sri": { "result": 0.8 },
+            "aus-afg": { "result": 1, "completed": 1 },
+            "nzl-pak": { "result": 0.5 },
+            "nzl-ban": { "result": 1, "completed": 1 },
+            "nzl-win": { "result": 0.5 },
+            "nzl-saf": { "result": 0.5 },
+            "nzl-sri": { "result": 1, "completed": 1 },
+            "nzl-afg": { "result": 0.7 },
+            "pak-ban": { "result": 1 },
+            "pak-win": { "result": 0, "completed": 1 },
+            "pak-saf": { "result": 0.5 },
+            "pak-sri": { "result": 0.5, "completed": 1 },
+            "pak-afg": { "result": 0.7 },
+            "ban-win": { "result": 1 },
+            "ban-saf": { "result": 0, "completed": 1 },
+            "ban-sri": { "result": 0.7 },
+            "ban-afg": { "result": 0.7 },
+            "win-saf": { "result": 0.5 },
+            "win-sri": { "result": 0.7 },
+            "win-afg": { "result": 0.7 },
+            "saf-sri": { "result": 0.7 },
+            "saf-afg": { "result": 0.7 },
+            "sri-afg": { "result": 0.7 },
+        };
         $.each(matches, function (game) {
-
             // get Teams
             var team1 = getTeam(game, 1);
             var team2 = getTeam(game, 2);
-
             var result = matches[game]["result"];
             var team1Score = result;
             var team2Score = (1 - result).toFixed(1);
-
             $("#" + team1 + "-" + team2).text(team1Score);
             $("#" + team2 + "-" + team1).text(team2Score);
-
             if (matches[game]["completed"]) {
-
                 var teamClass = ""
                 if (team1Score > 0.5) {
                     teamClass = "cell-won";
@@ -528,7 +505,6 @@
                     teamClass = "cell-draw";
                 }
                 $("#" + team1 + "-" + team2).addClass(teamClass);
-
                 teamClass = "";
                 if (team2Score > 0.5) {
                     teamClass = "cell-won";
@@ -542,48 +518,35 @@
                 $("#" + team1 + "-" + team2).html(getInputNumber(team1Score, team1 + "-" + team2));
                 $("#" + team2 + "-" + team1).html(getInputNumber(team2Score, team2 + "-" + team1));
             }
-
             updateTotal(team1, team2, team1Score, team2Score);
-
         });
-
         sortChance();
-
         function numInputFunction(id, value) {
             var result = value;
-
             var match = id.replace("num-", "");
             var team1 = getTeam(match, 1);
             var team2 = getTeam(match, 2);
-
             //$("#num-" + team1 + "-" + team2).val(result);
             $("#num-" + team2 + "-" + team1).val((1 - result).toFixed(1));
-
             for (i = 0; i < teams.length; i++) {
                 if (team1.indexOf(teams[i]) != -1) {
                     var resultValue = matches[team1 + "-" + team2]["result"];
                     updateTotal(team1, team2, resultValue * -1, (1 - resultValue).toFixed(1) * -1);
-
                     matches[team1 + "-" + team2]["result"] = result;
-
                     resultValue = matches[team1 + "-" + team2]["result"];
                     updateTotal(team1, team2, resultValue, (1 - resultValue).toFixed(1));
                     break;
                 } else if (team2.indexOf(teams[i]) != -1) {
                     var resultValue = matches[team2 + "-" + team1]["result"];
                     updateTotal(team2, team1, resultValue * -1, (1 - resultValue).toFixed(1) * -1);
-
                     matches[team2 + "-" + team1]["result"] = result;
-
                     resultValue = matches[team2 + "-" + team1]["result"];
                     updateTotal(team2, team1, resultValue, (1 - resultValue).toFixed(1));
                     break;
                 }
             }
         }
-
         $(function () {
-            
             $(":input").bind('keyup mouseup', function () {
                 if (this.value) {
                     if (this.value > 1 || this.value < 0) {
@@ -596,7 +559,6 @@
                 }
             });
         });
-
     </script>
 </body>
 
