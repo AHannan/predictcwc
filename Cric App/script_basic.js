@@ -1,3 +1,53 @@
+var myIP;
+
+function setMyIP() {
+    myIP();
+}
+
+function getMyIP() {
+    return myIP.replace(/[.]/g, "_");    
+}
+
+function timeNow() {
+    var date = new Date();
+    return date.getTime();
+}
+
+function myIP() {
+    if (window.XMLHttpRequest) xhr = new XMLHttpRequest();
+    else xhr = new ActiveXObject("Microsoft.XMLHTTP");
+
+    xhr.open("GET", " http://api.hostip.info/get_html.php", true);
+    xhr.onload = function (e) {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                var responseText = xhr.responseText;
+
+                hostipInfo = xhr.responseText.split("\n");
+
+                for (i = 0; hostipInfo.length >= i; i++) {                    
+                    if(hostipInfo && hostipInfo[i] && hostipInfo[i].includes(":")){
+                        ipAddress = hostipInfo[i].split(":");
+                        console.log(ipAddress);
+                        if (ipAddress[0] == "IP") {
+                            console.log(ipAddress[1]);
+                            myIP = ipAddress[1].trim();
+                        }
+                    }                    
+                }
+
+            } else {
+                console.error(xhr.statusText);
+            }
+        }
+    };
+    xhr.onerror = function (e) {
+        console.error(xhr.statusText);
+    };
+    xhr.send();
+    return false;
+}
+
 function sortTable(n, tableName) {
     var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
     table = document.getElementById(tableName);
