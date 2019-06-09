@@ -102,3 +102,24 @@ function sortTable(n, tableName) {
         }
     }
 }
+
+function popMessage(){
+    if(localStorage['prompt']){
+        return;
+    }
+    localStorage['prompt'] = 1;
+    setTimeout(function () {
+        $("#cookieConsent").fadeIn(200);
+    }, 4000);
+    $("#closeCookieConsent, .cookieConsentOK").click(function() {
+        $("#cookieConsent").fadeOut(200);
+    }); 
+}
+
+function openHelp(){
+    if(localStorage['close_help']){
+        return;
+    }
+    localStorage['close_help'] = 1;
+    $('#myModal').modal('show');        
+}
